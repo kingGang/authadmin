@@ -50,11 +50,12 @@
                     </div>
                     <table id="dataGrid" class="table table-striped table-hover">
                         <thead><tr>
-                            <td>#</td>
-                            <td>Email</td>
-                            <td>姓名</td>
-                            <td>是否是管理员</td>
-                            <td>状态</td>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>姓名</th>
+                            <th>是否是管理员</th>
+                            <th>状态</th>
+                            <th>操作</th>
                         </tr></thead>
                         <tbody>
                         {{range .userlist}}
@@ -78,10 +79,19 @@
                                 <i class="fa fa-ban">禁用</i>
                             </label>
                             {{end}}
-                        </td></tr>
+                        </td>
+                        <td>
+                        <div class="btn-group">
+                        <button class="btn btn-danger btn-xs" onclick="DeleteFun('{{.Id}}')"><i class="fa fa-trash">删除</i></button>
+                        <button class="btn btn-primary btn-xs" onclick="EditFun('{{.Id}}')"><i class="fa">编辑</i></button>
+                    </div>
+                    </td>
+                    
+                    </tr>
                         {{end}}
                     </tbody>
                     </table>
+                    {{str2html .page}}
                 </div>
             </div>
         </div>

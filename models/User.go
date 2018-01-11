@@ -28,13 +28,27 @@ func InsertUserInfo(user *User) int64 {
 	}
 	return 0
 }
+func DelUserInfo(userid int) int64 {
+	o := orm.NewOrm()
+	if id, err := o.Delete(&User{Id: userid}); err == nil {
+		return id
+	}
+	return 0
+}
 
-func GetUserList() []User {
+//返回所有用户列表，后期需要做分页
+func GetUserList(pindex, psize int) ([]User, int) {
 	o := orm.NewOrm()
 	var list []User
-	_, err := o.Raw("select * from t_user").QueryRows(&list)
-	if err == nil {
-		return list
+	_, err := o.Raw("select * from t_user limit ?,?",
+		(pindex-1)*psize, psize).QueryRows(&list)
+	if err != nil {
+		return nil, 0
 	}
-	return nil
+	var count int
+	err = o.Raw("select count(id) from t_user").QueryRow(&count)
+	if err == nil {
+		return list, count
+	}
+	return list, count
 }
